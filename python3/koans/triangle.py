@@ -18,8 +18,27 @@
 #
 def triangle(a, b, c):
     # DELETE 'PASS' AND WRITE THIS CODE
-    pass
+
+    sides= [a, b, c]
+
+    if a <= 0 or b <= 0 or c <= 0:
+    	raise TriangleError(AttributeError("positive numbers only, please!"))
+
+    if a + b + c <= 2 * max(a, b, c):
+        raise TriangleError(AttributeError("largest side can't be bigger than the sum of the two smaller sides. Really, it can't."))
+
+    if len(set(sides)) == 1:
+    	return "equilateral"
+
+    if len(set(sides)) == 2:
+    	return "isosceles"
+
+    if len(set(sides)) == 3:
+    	return "scalene"
+
+
 
 # Error class used in part 2.  No need to change this code.
 class TriangleError(Exception):
-    pass
+	pass
+
