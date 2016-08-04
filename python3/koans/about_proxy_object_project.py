@@ -19,13 +19,36 @@
 from runner.koan import *
 
 class Proxy:
-    def __init__(self, target_object):
+    def __init__(self, _object):
         # WRITE CODE HERE
-
-        #initialize '_obj' attribute last. Trust me on this!
-        self._obj = target_object
+        self.tvmessages = []
+        # initialize '_obj' attribute last. Trust me on this!
+        self._obj = _object
 
     # WRITE CODE HERE
+    def __getattr__(self, attribute_name): # tv methods still perform their function
+        self.tvmessages.append(attribute_name)
+        return self._obj.__getattribute__(attribute_name)
+
+    def __setattr__(self, attribute_name, message):
+        attributes = ["tvmessages", "_obj", "tvmessages", "was_called"]
+        if attribute_name in attributes:
+            object.__setattr__(self, attribute_name, message)
+        else:
+            self.tvmessages.append(attribute_name)
+            self._obj.__setattr__(attribute_name, message)
+
+
+    def was_called(self, attribute_name):
+        return attribute_name in self.tvmessages
+
+    def number_of_times_called(self, attribute_name):
+        return len([attribute for attribute in self.tvmessages if attribute == attribute_name])
+
+
+    def messages(self):
+        return self.tvmessages
+
 
 # The proxy object should pass the following Koan:
 #
